@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Site 2</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333333;
+    }
+
+    #nameDisplay {
+      text-align: center;
+      font-size: 18px;
+      color: #333333;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333333;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #333333;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #222222;
+    }
+
+    #question {
+      display: none;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      color: #333333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        margin: 50px auto;
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      #nameDisplay {
+        font-size: 16px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      button {
+        font-size: 14px;
+      }
+
+      label {
+        font-size: 14px;
+      }
+
+      input[type="text"] {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body onload="showName()">
+  <div class="container">
+    <h1>Page 2</h1>
+    <div id="nameDisplay"></div>
+    <h2>Can you describe me?</h2>
+    <button onclick="showQuestion()">Yes</button>
+    <button onclick="redirectToSadPage()">No</button>
+    <div id="question">
+      <label for="reason">What?</label>
+      <input type="text" id="reason" name="reason">
+      <button onclick="sendReason()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    function showName() {
+      var name = localStorage.getItem("name");
+      document.getElementById("nameDisplay").textContent = "Name: " + name;
+    }
+
+    function showQuestion() {
+      document.getElementById("question").style.display = "block";
+    }
+
+    function sendReason() {
+      var reason = document.getElementById("reason").value;
+      var name = localStorage.getItem("name");
+
+      var scriptUrl = "https://script.google.com/macros/s/AKfycbwECEKzzILdfb5HLr0QQTOHyBgRcOEt-rix2ucne-hqsUdczUAKoz06GEl4PadYYqpWyA/exec";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", scriptUrl, true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            alert("Reason sent!");
+          } else {
+            alert("An error occurred while sending the reason. Please try again.");
+          }
+        }
+      };
+
+      xhr.send("name=" + encodeURIComponent(name) + "&reason=" + encodeURIComponent(reason));
+    }
+    
+    function redirectToSadPage() {
+      window.location.href = "ppp.html";
+    }
+  </script>
+</body>
+</html>
